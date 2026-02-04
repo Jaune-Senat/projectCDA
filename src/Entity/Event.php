@@ -45,6 +45,9 @@ class Event
     #[ORM\OneToMany(targetEntity: Participate::class, mappedBy: 'id_event')]
     private Collection $participates;
 
+    #[ORM\ManyToOne(inversedBy: 'events')]
+    private ?User $id_creator = null;
+
     public function __construct()
     {
         $this->participates = new ArrayCollection();
@@ -184,6 +187,18 @@ class Event
                 $participate->setIdEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIdCreator(): ?User
+    {
+        return $this->id_creator;
+    }
+
+    public function setIdCreator(?User $id_creator): static
+    {
+        $this->id_creator = $id_creator;
 
         return $this;
     }
